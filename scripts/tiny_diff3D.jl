@@ -1,6 +1,6 @@
 using TinyKernels
 using TinyKernels.CPUBackend
-# using TinyKernels.CUDABackend
+using TinyKernels.CUDABackend, CUDA
 using Plots; opts = (aspect_ratio=1, c=:turbo, clims=(0, 1), xlabel="lx", ylabel="ly")
 include("helpers.jl")
 
@@ -26,8 +26,7 @@ function diffusion3D(; do_visu=false, device)
     # Initial conditions
     T            = device_array(Float64, device, nx, ny, nz)
     ρCp          = device_array(Float64, device, nx, ny, nz)
-    copyto!(T, [exp(-((ix - 1) * dx - lx / 2)^2 - ((iy - 1) * dy - ly / 2)^2 - ((iz - 1) * dz - lz / 2)^2)
-                for ix = 1:size(T, 1), iy = 1:size(T, 2), iz = 1:size(T, 3)]) # Temperature
+    copyto!(T, [exp(-((ix - 1) * dx - lx / 2)^2 - ((iy - 1) * dy - ly / 2)^2 - ((iz - 1) * dz - lz / 2)^2) for ix = 1:size(T, 1), iy = 1:size(T, 2), iz = 1:size(T, 3)]) # Temperature
     fill!(ρCp, 1.0 / ρCp0)        # Diffusion coeff
     T2           = copy(T)        # Temperature (2nd)
     comp!        = step!(device)  # Materialise kernel
@@ -42,10 +41,10 @@ function diffusion3D(; do_visu=false, device)
         wait(out_evs)
         wait(inn_ev)
         T, T2 = T2, T
-        (do_visu && (it % nout == 0)) && display(heatmap(T[:, :, sz]', title="it=$it", xlims=(1, nx), ylims=(1, ny); opts...))
+        (do_visu && (it % nout == 0)) && display(heatmap(Array(T)[:, :, sz]', title="it=$it", xlims=(1, nx), ylims=(1, ny); opts...))
     end
     return
 end
 
-diffusion3D(; do_visu=true, device=CPUDevice())
-# diffusion3D(; do_visu=true, device=CUDADevice())
+# diffusion3D(; do_visu=true, device=CPUDevice())
+diffusion3D(; do_visu=true, device=CUDADevice())

@@ -1,6 +1,6 @@
 using TinyKernels
 using TinyKernels.CPUBackend
-# using TinyKernels.CUDABackend
+using TinyKernels.CUDABackend, CUDA
 using ImplicitGlobalGrid
 using Plots; opts = (aspect_ratio=1, c=:turbo, clims=(0, 1), xlabel="lx", ylabel="ly")
 include("helpers.jl")
@@ -28,8 +28,7 @@ function diffusion3D(; do_visu=false, device)
     # Initial conditions
     T            = device_array(Float64, device, nx, ny, nz)
     ρCp          = device_array(Float64, device, nx, ny, nz)
-    copyto!(T, [exp(-(x_g(ix, dx, T) - lx / 2)^2 - (y_g(iy, dy, T) - ly / 2)^2 - (z_g(iz, dz, T) - lz / 2)^2)
-                for ix = 1:size(T, 1), iy = 1:size(T, 2), iz=1:size(T, 3)]) # Temperature
+    copyto!(T, [exp(-(x_g(ix, dx, T) - lx / 2)^2 - (y_g(iy, dy, T) - ly / 2)^2 - (z_g(iz, dz, T) - lz / 2)^2) for ix = 1:size(T, 1), iy = 1:size(T, 2), iz=1:size(T, 3)]) # Temperature
     fill!(ρCp, 1.0 / ρCp0)        # Diffusion coeff
     T2           = copy(T)        # Temperature (2nd)
     comp!        = step!(device)  # Materialise kernel
@@ -61,5 +60,5 @@ function diffusion3D(; do_visu=false, device)
     return
 end
 
-diffusion3D(; do_visu=true, device=CPUDevice())
-# diffusion3D(; do_visu=true, device=CUDADevice())
+# diffusion3D(; do_visu=true, device=CPUDevice())
+diffusion3D(; do_visu=true, device=CUDADevice())
