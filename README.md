@@ -1,5 +1,5 @@
 # WSL Julia 2023
-WSL workshop - Why I like Julia
+Part of th [WSL workshop about Julia](https://github.com/vboussange/WSLJuliaWorkshop2023) - Why I like Julia
 
 ## Solving PDEs using Julia for xPU HPC
 
