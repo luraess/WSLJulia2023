@@ -3,7 +3,7 @@ WSL workshop - Why I like Julia
 
 ## Solving PDEs using Julia for xPU HPC
 
-I mostly use Julia for solving partial differential equtations in parallel on CPUs and GPUs (xPU) using a high-performance computing (HPC) apporach.
+I mostly use Julia for solving partial differential equations in parallel on CPUs and GPUs (xPU) using a high-performance computing (HPC) approach.
 
 ### Demo
 3D diffusion running in parallel (MPI) on multiple Nvidia (CUDA) or AMD (ROCm) GPUs, on Intel and ARM CPUs and Metal (macOS) GPUs.
