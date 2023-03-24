@@ -8,7 +8,9 @@ I mostly use Julia for solving partial differential equtations in parallel on CP
 ### Demo
 3D diffusion running in parallel (MPI) on multiple Nvidia (CUDA) or AMD (ROCm) GPUs, on Intel and ARM CPUs and Metal (macOS) GPUs.
 
-![3D diffusion](docs/tiny_diff3D.gif)
+<p align="center">
+    <img src="docs/tiny_diff3D.gif" alt="3D diffusion" width="500">
+</p>
 
 ### Resources
 - PDEs on GPUs: https://pde-on-gpu.vaw.ethz.ch

@@ -56,7 +56,7 @@ function diffusion3D(; do_visu=false, device)
             (me == 0) && (heatmap(T_v[:, :, sz]', title="it=$it", xlims=(1, nx_g() - 2), ylims=(1, ny_g() - 2); opts...); frame(anim))
         end
     end
-    (do_visu && me == 0) && gif(anim, "../tiny_diff3D.gif", fps=5)
+    (do_visu && me == 0) && gif(anim, "../out_visu/tiny_diff3D.gif", fps=5)
     finalize_global_grid()
     return
 end
